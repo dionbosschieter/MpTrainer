@@ -22,7 +22,7 @@
         <Label x:Name="Buff1Label" Content="false" HorizontalAlignment="Left" Margin="90,93,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="Buff2" HorizontalAlignment="Left" Margin="13,124,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Buff2Label" Content="false" HorizontalAlignment="Left" Margin="90,124,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Image HorizontalAlignment="Left" Height="74" Margin="292,14,0,0" VerticalAlignment="Top" Width="161" Source="/maplestory-logo-3BF4380E22-seeklogo.com.png"/>
+        <Image HorizontalAlignment="Left" Height="74" Margin="292,14,0,0" VerticalAlignment="Top" Width="161" Source="/maplestory-logo.png"/>
         <Button x:Name="StartPauseButton" Content="Start" HorizontalAlignment="Left" Margin="292,96,0,0" VerticalAlignment="Top" Click="StartPauseButton_Click" Width="72"/>
         <Label Content="Location Y" HorizontalAlignment="Left" Margin="13,154,0,0" VerticalAlignment="Top"/>
         <Label x:Name="YLabel" Content="0" HorizontalAlignment="Left" Margin="90,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>

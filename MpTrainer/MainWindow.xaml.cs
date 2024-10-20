@@ -19,7 +19,7 @@ namespace MpTrainer
         private const string locationMagicGuardian = "base+0x7F3F18";
         private const string hpLocation = "base+0x007EC208,0xBB8,0xF8,0x34,0x24,0x1C,0x50,0x190";
         private const string mpLocation = "base+0x007EC208,0xAF8,0x24,0xBBC,0x40,0x7C,0x190";
-        private const string yLocation = "base+0x007ED788,0x648,0x24,0x5C,0x4,0x24,0x5D4";
+        private const string xLocation = "base+0x007ED788,0x648,0x24,0x5C,0x4,0x24,0x5D4";
 
         // game state vars
         private int hp = 0;
@@ -27,7 +27,7 @@ namespace MpTrainer
         private bool buff1Enabled = false;
         private bool buff2Enabled = false;
         private bool connected = false;
-        private int charLocationY = 0;
+        private int charLocationX = 0;
 
         // trainer setting vars
         private bool autoBuff;
@@ -39,8 +39,8 @@ namespace MpTrainer
 
         // movement detection vars
         private bool movingLeft = true;
-        private int minY;
-        private int maxY;
+        private int minX;
+        private int maxX;
 
         private Mem m = new Mem();
         private Process p;
@@ -82,18 +82,18 @@ namespace MpTrainer
         }
         private void PerformMove()
         {
-            // decide direction on charLocationY and where we are moving
+            // decide direction on charLocationX and where we are moving
             if (movingLeft)
             {
-                movingLeft = charLocationY != minY;
+                movingLeft = charLocationX != minX;
             }
             if (movingLeft == false)
             {
-                movingLeft = charLocationY == maxY;
+                movingLeft = charLocationX == maxX;
             }
 
-            minY = charLocationY < minY ? charLocationY : minY;
-            maxY = charLocationY > maxY ? charLocationY : maxY;
+            minX = charLocationX < minX ? charLocationX : minX;
+            maxX = charLocationX > maxX ? charLocationX : maxX;
 
             Keyboard.KeyStroke key = movingLeft ? 
                 Keyboard.KeyStroke.LEFTARROW : 
@@ -193,7 +193,7 @@ namespace MpTrainer
 
             hp = m.Read2Byte(hpLocation);
             mp = m.Read2Byte(mpLocation);
-            charLocationY = m.ReadInt(yLocation);
+            charLocationX = m.ReadInt(xLocation);
         }
 
         private void RefreshForms()
@@ -203,9 +203,9 @@ namespace MpTrainer
 
             HpLabel.Content = String.Format("{0}", hp);
             MpLabel.Content = String.Format("{0}", mp);
-            YLabel.Content = String.Format("{0}", charLocationY);
-            MinYLabel.Content = String.Format("{0}", minY);
-            MaxYLabel.Content = String.Format("{0}", maxY);
+            XLabel.Content = String.Format("{0}", charLocationX);
+            MinXLabel.Content = String.Format("{0}", minX);
+            MaxXLabel.Content = String.Format("{0}", maxX);
         }
 
         private void StartPauseButton_Click(object sender, RoutedEventArgs e)
@@ -230,8 +230,8 @@ namespace MpTrainer
 
                 StartPauseButton.Background = Brushes.LightGreen;
                 StartPauseButton.Content = "Pause";
-                maxY = -9999;
-                minY = 9999;
+                maxX = -9999;
+                minX = 9999;
             }
         }
 

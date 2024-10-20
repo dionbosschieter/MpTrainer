@@ -30,6 +30,9 @@ namespace MpTrainer
         private int charLocationY = 0;
 
         // trainer setting vars
+        private bool autoBuff;
+        private bool autoPot;
+        private bool autoAttack;
         private int minMp = 0;
         private int minHp = 0;
         private bool stopBackgoundThreads = false;
@@ -52,6 +55,9 @@ namespace MpTrainer
 
             minHp = Int32.Parse(HpTextBox.Text);
             minMp = Int32.Parse(MpTextBox.Text);
+            autoBuff = AutoBuffCheckbox.IsChecked == true;
+            autoPot = AutoPotCheckbox.IsChecked == true;
+            autoAttack = AutoAttackCheckbox.IsChecked == true;
             Connect();
         }
 
@@ -61,12 +67,17 @@ namespace MpTrainer
             {
                 RefreshFromMemoryVariables();
                 Dispatcher.BeginInvoke(new Action(() => { RefreshForms(); }));
-                PerformBuffActions();
-                PerformHealthActions();
+                
+                if (autoBuff) PerformBuffActions();
+                if (autoPot) PerformHealthActions();
 
-                PerformMove();
-                PerformAttack();
-                Thread.Sleep(500);
+                if (autoAttack)
+                {
+                    PerformMove();
+                    PerformAttack();
+                }
+
+                Thread.Sleep(250);
             }
         }
         private void PerformMove()
@@ -89,7 +100,11 @@ namespace MpTrainer
                 Keyboard.KeyStroke.RIGHTARROW;
 
             for (int i = 0; i < 3; i++)
-                SendKeyStroke(key, 300);
+            {
+                SendKeyStroke(key, 300, false);
+                SendKeyStroke(Keyboard.KeyStroke.Z, 50);
+            }
+            SendKeyStroke(key, 300);
         }
 
         private void PerformAttack()
@@ -113,7 +128,7 @@ namespace MpTrainer
                 SendKeyStroke(Keyboard.KeyStroke.PGDN);
         }
 
-        private void SendKeyStroke(Keyboard.KeyStroke key, int delay = 100)
+        private void SendKeyStroke(Keyboard.KeyStroke key, int delay = 100, bool simulateUp = true)
         {
             IntPtr h = p.MainWindowHandle;
             SetFocus(h);
@@ -121,8 +136,12 @@ namespace MpTrainer
             
             Thread.Sleep(delay);
             Keyboard.SendKey(key, false, Keyboard.InputType.Keyboard);
-            Thread.Sleep(delay);
-            Keyboard.SendKey(key, true, Keyboard.InputType.Keyboard);
+
+            if (simulateUp)
+            {
+                Thread.Sleep(delay);
+                Keyboard.SendKey(key, true, Keyboard.InputType.Keyboard);
+            }
         }
 
         private bool getSkillActive(string skillLocation)
@@ -200,7 +219,7 @@ namespace MpTrainer
             {
                 stopBackgoundThreads = true;
                 
-                StartPauseButton.Background = Brushes.Gray;
+                StartPauseButton.Background = Brushes.LightGray;
                 StartPauseButton.Content = "Resume";
             }
             else if (backgroundThread == null || backgroundThread.IsAlive == false)
@@ -209,11 +228,26 @@ namespace MpTrainer
                 backgroundThread = new Thread(async () => await TrainerThread());
                 backgroundThread.Start();
 
-                StartPauseButton.Background = Brushes.Green;
+                StartPauseButton.Background = Brushes.LightGreen;
                 StartPauseButton.Content = "Pause";
                 maxY = -9999;
                 minY = 9999;
             }
+        }
+
+        private void AutoAttackCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            autoAttack = !autoAttack;
+        }
+
+        private void AutoPotCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            autoPot = !autoPot;
+        }
+
+        private void AutoBuffCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            autoBuff = !autoBuff;
         }
     }
 }

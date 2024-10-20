@@ -28,6 +28,9 @@
         <Label x:Name="YLabel" Content="0" HorizontalAlignment="Left" Margin="90,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="MinYLabel" Content="0" HorizontalAlignment="Left" Margin="138,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="MaxYLabel" Content="0" HorizontalAlignment="Left" Margin="175,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <CheckBox x:Name="AutoAttackCheckbox" Content="Auto attack" HorizontalAlignment="Left" Margin="293,124,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoAttackCheckbox_Checked" Unchecked="AutoAttackCheckbox_Checked"/>
+        <CheckBox x:Name="AutoPotCheckbox" Content="Auto pot" HorizontalAlignment="Left" Margin="293,142,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoPotCheckbox_Checked" Unchecked="AutoPotCheckbox_Checked"/>
+        <CheckBox x:Name="AutoBuffCheckbox" Content="Auto buff" HorizontalAlignment="Left" Margin="293,159,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoBuffCheckbox_Checked" Unchecked="AutoBuffCheckbox_Checked"/>
 
     </Grid>
 </Window>

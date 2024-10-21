@@ -33,9 +33,12 @@ namespace MpTrainer
         private bool autoBuff;
         private bool autoPot;
         private bool autoAttack;
+        private bool autoChangeChannel;
         private int minMp = 0;
         private int minHp = 0;
+        private int changeChannelCounterThreshold = 1000;
         private bool stopBackgoundThreads = false;
+        private int changeChannelCounter = 0;
 
         // movement detection vars
         private bool movingLeft = true;
@@ -58,6 +61,7 @@ namespace MpTrainer
             autoBuff = AutoBuffCheckbox.IsChecked == true;
             autoPot = AutoPotCheckbox.IsChecked == true;
             autoAttack = AutoAttackCheckbox.IsChecked == true;
+            autoChangeChannel = AutoChangeChannelCheckbox.IsChecked == true;
             Connect();
         }
 
@@ -77,9 +81,26 @@ namespace MpTrainer
                     PerformAttack();
                 }
 
+                if (needToChangeChannel())
+                {
+                    ChangeChannel();
+                }
+
                 Thread.Sleep(250);
             }
         }
+
+        private bool needToChangeChannel()
+        {
+            if (autoChangeChannel && ++changeChannelCounter > changeChannelCounterThreshold)
+            {
+                changeChannelCounter = 0;
+                return true;
+            }
+
+            return false;
+        }
+
         private void PerformMove()
         {
             // decide direction on charLocationX and where we are moving
@@ -101,10 +122,22 @@ namespace MpTrainer
 
             for (int i = 0; i < 3; i++)
             {
-                SendKeyStroke(key, 300, false);
-                SendKeyStroke(Keyboard.KeyStroke.Z, 50);
+                SendKeyStroke(key, 50, false);
+
+                for (int j = 0; j < 5; j++)
+                    SendKeyStroke(Keyboard.KeyStroke.Z, 25);
             }
-            SendKeyStroke(key, 300);
+
+            SendKeyStroke(key, 50);
+        }
+
+        private void ChangeChannel()
+        {
+            Thread.Sleep(7500); // sleep for rest
+            SendKeyStroke(KeyStroke.ESCAPE);
+            SendKeyStroke(KeyStroke.RETURN);
+            SendKeyStroke(KeyStroke.RIGHTARROW);
+            SendKeyStroke(KeyStroke.RETURN);
         }
 
         private void PerformAttack()
@@ -157,12 +190,18 @@ namespace MpTrainer
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //minHp = Int32.Parse(HpTextBox.Text);
+            if (HpTextBox != null)
+            {
+                minHp = Int32.Parse(HpTextBox.Text);
+            }
         }
 
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            //minMp = Int32.Parse(MpTextBox.Text);
+            if (MpTextBox != null)
+            {
+                minMp = Int32.Parse(MpTextBox.Text);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -206,6 +245,8 @@ namespace MpTrainer
             XLabel.Content = String.Format("{0}", charLocationX);
             MinXLabel.Content = String.Format("{0}", minX);
             MaxXLabel.Content = String.Format("{0}", maxX);
+            MaxXLabel.Content = String.Format("{0}", maxX);
+            ChannelCounterLabel.Content = String.Format("{0}", changeChannelCounter);
         }
 
         private void StartPauseButton_Click(object sender, RoutedEventArgs e)
@@ -248,6 +289,11 @@ namespace MpTrainer
         private void AutoBuffCheckbox_Checked(object sender, RoutedEventArgs e)
         {
             autoBuff = !autoBuff;
+        }
+
+        private void AutoChangeChannelCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            autoChangeChannel = !autoChangeChannel;
         }
     }
 }

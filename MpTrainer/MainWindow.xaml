@@ -31,6 +31,9 @@
         <CheckBox x:Name="AutoAttackCheckbox" Content="Auto attack" HorizontalAlignment="Left" Margin="293,124,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoAttackCheckbox_Checked" Unchecked="AutoAttackCheckbox_Checked"/>
         <CheckBox x:Name="AutoPotCheckbox" Content="Auto pot" HorizontalAlignment="Left" Margin="293,142,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoPotCheckbox_Checked" Unchecked="AutoPotCheckbox_Checked"/>
         <CheckBox x:Name="AutoBuffCheckbox" Content="Auto buff" HorizontalAlignment="Left" Margin="293,159,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoBuffCheckbox_Checked" Unchecked="AutoBuffCheckbox_Checked"/>
+        <CheckBox x:Name="AutoChangeChannelCheckbox" Content="Channel hopper" HorizontalAlignment="Left" Margin="293,174,0,0" VerticalAlignment="Top" Checked="AutoChangeChannelCheckbox_Checked" Unchecked="AutoChangeChannelCheckbox_Checked"/>
+        <Label Content="Channel counter" HorizontalAlignment="Left" Margin="13,180,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ChannelCounterLabel" Content="0" HorizontalAlignment="Left" Margin="138,182,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
     </Grid>
 </Window>

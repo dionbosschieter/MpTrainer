@@ -20,6 +20,7 @@ namespace MpTrainer
         private const string hpLocation = "base+0x007EC208,0xBB8,0xF8,0x34,0x24,0x1C,0x50,0x190";
         private const string mpLocation = "base+0x007EC208,0xAF8,0x24,0xBBC,0x40,0x7C,0x190";
         private const string xLocation = "base+0x007ED788,0x648,0x24,0x5C,0x4,0x24,0x5D4";
+        private const string locationCharRested = "base+0x007EBF98,0x598,0x4,0xC,0xC";
 
         // game state vars
         private int hp = 0;
@@ -28,6 +29,8 @@ namespace MpTrainer
         private bool buff2Enabled = false;
         private bool connected = false;
         private int charLocationX = 0;
+        private bool charUnderAttack = false;
+        private bool charRested = false;
 
         // trainer setting vars
         private bool autoBuff;
@@ -36,7 +39,7 @@ namespace MpTrainer
         private bool autoChangeChannel;
         private int minMp = 0;
         private int minHp = 0;
-        private int changeChannelCounterThreshold = 1000;
+        private int changeChannelCounterThreshold = 50;
         private bool stopBackgoundThreads = false;
         private int changeChannelCounter = 0;
 
@@ -77,12 +80,16 @@ namespace MpTrainer
 
                 if (autoAttack)
                 {
-                    PerformMove();
-                    PerformAttack();
+                    if (charUnderAttack == false && changeChannelCounter == 0)
+                        PerformMove();
+                    if (charUnderAttack)
+                        PerformAttack();
                 }
 
-                if (needToChangeChannel())
+                if (canChangeChannel())
                 {
+                    changeChannelCounter = 0;
+
                     ChangeChannel();
                 }
 
@@ -90,11 +97,15 @@ namespace MpTrainer
             }
         }
 
-        private bool needToChangeChannel()
+        private bool canChangeChannel()
         {
-            if (autoChangeChannel && ++changeChannelCounter > changeChannelCounterThreshold)
+            if (charRested == false || charUnderAttack)
             {
                 changeChannelCounter = 0;
+            }
+
+            if (autoChangeChannel && charRested && charUnderAttack == false && ++changeChannelCounter > changeChannelCounterThreshold)
+            {                
                 return true;
             }
 
@@ -120,7 +131,7 @@ namespace MpTrainer
                 Keyboard.KeyStroke.LEFTARROW : 
                 Keyboard.KeyStroke.RIGHTARROW;
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 SendKeyStroke(key, 50, false);
 
@@ -133,7 +144,6 @@ namespace MpTrainer
 
         private void ChangeChannel()
         {
-            Thread.Sleep(7500); // sleep for rest
             SendKeyStroke(KeyStroke.ESCAPE);
             SendKeyStroke(KeyStroke.RETURN);
             SendKeyStroke(KeyStroke.RIGHTARROW);
@@ -142,7 +152,10 @@ namespace MpTrainer
 
         private void PerformAttack()
         {
-            SendKeyStroke(Keyboard.KeyStroke.T);
+            for (int i=0;i<15;i++)
+                SendKeyStroke(Keyboard.KeyStroke.T, 100);
+
+            Thread.Sleep(300);
         }
 
 
@@ -177,12 +190,12 @@ namespace MpTrainer
             }
         }
 
-        private bool getSkillActive(string skillLocation)
+        private bool readBoolAtAddress(string skillLocation, int index = 0)
         {
             bool[] bits = m.ReadBits(skillLocation);
-            if (bits.Length > 0)
+            if (bits.Length > index)
             {
-                return bits[0];
+                return bits[index];
             }
 
             return false;
@@ -227,10 +240,13 @@ namespace MpTrainer
             if (!connected)
                 return;
 
-            buff1Enabled = getSkillActive(locationMeditation);
-            buff2Enabled = getSkillActive(locationMagicGuardian);
+            buff1Enabled = readBoolAtAddress(locationMeditation);
+            buff2Enabled = readBoolAtAddress(locationMagicGuardian);
+            charRested = m.ReadInt(locationCharRested) == 1;
 
-            hp = m.Read2Byte(hpLocation);
+            int newhp = m.Read2Byte(hpLocation);
+            charUnderAttack = (hp > newhp) && ((hp-newhp) > 2);
+            hp = newhp;
             mp = m.Read2Byte(mpLocation);
             charLocationX = m.ReadInt(xLocation);
         }
@@ -239,6 +255,8 @@ namespace MpTrainer
         {
             Buff1Label.Content = buff1Enabled.ToString();
             Buff2Label.Content = buff2Enabled.ToString();
+            CharUnderAttackLabel.Content = charUnderAttack.ToString();
+            CharRestedLabel.Content = charRested.ToString();
 
             HpLabel.Content = String.Format("{0}", hp);
             MpLabel.Content = String.Format("{0}", mp);

@@ -5,35 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MpTrainer"
         mc:Ignorable="d"
-        Title="MpTrainer" Height="247" Width="482">
-    <Grid>
+        Title="MpTrainer" Height="277" Width="482">
+    <Grid Margin="0,-6,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="HpTextBox" HorizontalAlignment="Left" Margin="66,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" TextChanged="TextBox_TextChanged_1" Text="315" Height="18"/>
-        <TextBox x:Name="MpTextBox" HorizontalAlignment="Left" Margin="66,56,0,0" TextWrapping="Wrap" Text="420" VerticalAlignment="Top" Width="60" TextChanged="TextBox_TextChanged" Height="18"/>
+        <TextBox x:Name="MpTextBox" HorizontalAlignment="Left" Margin="66,47,0,0" TextWrapping="Wrap" Text="420" VerticalAlignment="Top" Width="60" TextChanged="TextBox_TextChanged" Height="18"/>
         <Label Content="Min HP" HorizontalAlignment="Left" Margin="13,17,0,0" VerticalAlignment="Top" Height="26" Width="49"/>
-        <Label Content="Min MP" HorizontalAlignment="Left" Margin="13,52,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.179,0.311" Height="26" Width="51"/>
+        <Label Content="Min MP" HorizontalAlignment="Left" Margin="13,43,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.179,0.311" Height="26" Width="51"/>
         <Label x:Name="HpLabel" Content="0" HorizontalAlignment="Left" Margin="138,17,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.06,-0.215" Height="26" Width="53"/>
-        <Label x:Name="MpLabel" Content="0" HorizontalAlignment="Left" Margin="138,52,0,0" VerticalAlignment="Top" Height="26" Width="53"/>
+        <Label x:Name="MpLabel" Content="0" HorizontalAlignment="Left" Margin="138,43,0,0" VerticalAlignment="Top" Height="26" Width="53"/>
         <Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="372,96,0,0" VerticalAlignment="Top" Width="81" Height="20" Click="Button_Click"/>
-        <Label Content="Buff1" HorizontalAlignment="Left" Margin="13,93,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Buff1Label" Content="false" HorizontalAlignment="Left" Margin="90,93,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Buff2" HorizontalAlignment="Left" Margin="13,124,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Buff2Label" Content="false" HorizontalAlignment="Left" Margin="90,124,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Buff1" HorizontalAlignment="Left" Margin="13,69,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Buff1Label" Content="false" HorizontalAlignment="Left" Margin="66,70,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Buff2" HorizontalAlignment="Left" Margin="14,96,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Buff2Label" Content="false" HorizontalAlignment="Left" Margin="66,97,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Image HorizontalAlignment="Left" Height="74" Margin="292,14,0,0" VerticalAlignment="Top" Width="161" Source="/maplestory-logo.png"/>
         <Button x:Name="StartPauseButton" Content="Start" HorizontalAlignment="Left" Margin="292,96,0,0" VerticalAlignment="Top" Click="StartPauseButton_Click" Width="72"/>
-        <Label Content="Location X" HorizontalAlignment="Left" Margin="13,154,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="XLabel" Content="0" HorizontalAlignment="Left" Margin="90,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="MinXLabel" Content="0" HorizontalAlignment="Left" Margin="138,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="MaxXLabel" Content="0" HorizontalAlignment="Left" Margin="175,154,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Location X" HorizontalAlignment="Left" Margin="15,177,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="XLabel" Content="0" HorizontalAlignment="Left" Margin="92,177,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="MinXLabel" Content="0" HorizontalAlignment="Left" Margin="140,177,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="MaxXLabel" Content="0" HorizontalAlignment="Left" Margin="177,177,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <CheckBox x:Name="AutoAttackCheckbox" Content="Auto attack" HorizontalAlignment="Left" Margin="293,124,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoAttackCheckbox_Checked" Unchecked="AutoAttackCheckbox_Checked"/>
         <CheckBox x:Name="AutoPotCheckbox" Content="Auto pot" HorizontalAlignment="Left" Margin="293,142,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoPotCheckbox_Checked" Unchecked="AutoPotCheckbox_Checked"/>
         <CheckBox x:Name="AutoBuffCheckbox" Content="Auto buff" HorizontalAlignment="Left" Margin="293,159,0,0" VerticalAlignment="Top" IsChecked="True" Checked="AutoBuffCheckbox_Checked" Unchecked="AutoBuffCheckbox_Checked"/>
         <CheckBox x:Name="AutoChangeChannelCheckbox" Content="Channel hopper" HorizontalAlignment="Left" Margin="293,174,0,0" VerticalAlignment="Top" Checked="AutoChangeChannelCheckbox_Checked" Unchecked="AutoChangeChannelCheckbox_Checked"/>
-        <Label Content="Channel counter" HorizontalAlignment="Left" Margin="13,180,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="ChannelCounterLabel" Content="0" HorizontalAlignment="Left" Margin="138,182,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Channel counter" HorizontalAlignment="Left" Margin="15,204,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ChannelCounterLabel" Content="0" HorizontalAlignment="Left" Margin="140,206,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Under attack" HorizontalAlignment="Left" Margin="14,150,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="CharUnderAttackLabel" Content="false" HorizontalAlignment="Left" Margin="98,150,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Rested" HorizontalAlignment="Left" Margin="14,123,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="CharRestedLabel" Content="false" HorizontalAlignment="Left" Margin="66,123,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
     </Grid>
 </Window>
